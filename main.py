@@ -10,6 +10,7 @@ import pytz
 window = Tk()
 window.title("Weather App")
 window.geometry('900x500+300+200')
+window.geometry('+%d+%d' % (300, 150))
 window.resizable(FALSE, False)
 
 # getweather
