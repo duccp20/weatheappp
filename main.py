@@ -1,7 +1,3 @@
-#Ngọc test'=
-#Ngânnnnnn
-#lkjaflajf;aln;lp
-#lkfdah
 from tkinter import *
 import tkinter as tk
 from geopy.geocoders import Nominatim
@@ -19,6 +15,7 @@ window.resizable(FALSE, False)
 
 # getweather
 
+
 def getweather():
     try:
         city = textfield.get()
@@ -32,7 +29,7 @@ def getweather():
         local_time = datetime.now(home)
         current_time = local_time.strftime("%I : %M %p")
         clock.config(text=current_time)
-        name.config(text="CURRENT WEATHER")
+        name.config(text="THỜI GIAN")
 
         # weather
         api = "https://api.openweathermap.org/data/2.5/weather?q=" + \
@@ -87,19 +84,19 @@ name.place(x=30, y=100)
 clock = Label(window, font=('Helvetica', 20))
 clock.place(x=30, y=130)
 # Label
-label1 = Label(window, text="Wind", font=(
+label1 = Label(window, text="Tốc độ gió", font=(
     'Helvetica', 15, 'bold'), fg='white', bg='#1ab5ef')
-label1.place(x=120, y=400)
+label1.place(x=100, y=400)
 
-label2 = Label(window, text="HUMIDITY", font=(
+label2 = Label(window, text="Độ ẩm", font=(
     'Helvetica', 15, 'bold'), fg='white', bg='#1ab5ef')
-label2.place(x=250, y=400)
+label2.place(x=265, y=400)
 
-label3 = Label(window, text="DESCRIPTION", font=(
+label3 = Label(window, text="Trạng thái", font=(
     'Helvetica', 15, 'bold'), fg='white', bg='#1ab5ef')
-label3.place(x=430, y=400)
+label3.place(x=470, y=400)
 
-label4 = Label(window, text="PRESSURE", font=(
+label4 = Label(window, text="Áp suất", font=(
     'Helvetica', 15, 'bold'), fg='white', bg='#1ab5ef')
 label4.place(x=650, y=400)
 
