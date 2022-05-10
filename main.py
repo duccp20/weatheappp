@@ -2,7 +2,6 @@
 #Ngânnnnnn
 #lkjaflajf;aln;lp
 #lkfdah
-#tranneeee
 from tkinter import *
 import tkinter as tk
 from geopy.geocoders import Nominatim
