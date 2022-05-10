@@ -1,6 +1,7 @@
 #Ngọc test'=
 #lkjaflajf;aln;lp
 #lkfdah
+#tranneeee
 from tkinter import *
 import tkinter as tk
 from geopy.geocoders import Nominatim
@@ -17,7 +18,6 @@ window.geometry('+%d+%d' % (300, 150))
 window.resizable(FALSE, False)
 
 # getweather
-#tesssss
 
 def getweather():
     try:
