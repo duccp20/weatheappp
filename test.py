@@ -65,6 +65,7 @@ def settings_window():
         dv_toc_do_gio.append(wind_slection.get())
         dv_ap_suat.clear()
         dv_ap_suat.append(pressure_slection.get())
+        st_window.destroy()
         current_weather()
 
 
