@@ -140,8 +140,9 @@ def settings_window():
     st_window.geometry('400x500')
     st_window.geometry('+%d+%d' % (800, 150))
     st_window.title('Cài đặt')
+    st_window.resizable(FALSE, False)
 
-    Label(st_window, text='Cài đặt', font=('arial', 30)).place(x=10, y=10)
+    Label(st_window, text='Cài đặt', font=('arial', 30)).place(x=135, y=10)
 
     setting_frame = Frame(st_window)
     setting_frame.place(x=10, y=60)
