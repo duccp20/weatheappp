@@ -93,7 +93,6 @@ def current_weather():
         humidity = data[0]['main']['humidity']
         wind = data[0]['wind']['speed']
 
-        t.config(text=(temp, "°"))
         c.config(text=(condition, "|", "FEELS", "LIKE", temp, "°"))
         if dv_toc_do_gio[0] == 'km/h':
             w.config(text=f'{wind} {dv_toc_do_gio[0]}')
@@ -105,6 +104,10 @@ def current_weather():
             p.config(text=f'{pressure} {dv_ap_suat[0]}')
         else:
             p.config(text=f'{round(pressure * 0.750061, 2)} {dv_ap_suat[0]}')
+        if dv_nhiet_do[0] == '°C':
+            t.config(text=f'{temp} {dv_nhiet_do[0]}')
+        else:
+            t.config(text=f'{round(temp * (9 / 5) + 32)} {dv_nhiet_do[0]}')
 
 
 def settings_window():
@@ -113,6 +116,8 @@ def settings_window():
         dv_toc_do_gio.append(wind_slection.get())
         dv_ap_suat.clear()
         dv_ap_suat.append(pressure_slection.get())
+        dv_nhiet_do.clear()
+        dv_nhiet_do.append(temp_slection.get())
         st_window.destroy()
         change_date()
         current_weather()
@@ -162,6 +167,7 @@ def settings_window():
             setting_frame, text=pressure[i], font=30, value=pressure[i], variable=pressure_slection)
         p_radiobutton.grid(column=i+1, row=1, sticky=W)
 
+
     Label(setting_frame, text='Dạng ngày',
           font=(40)).grid(column=0, row=2, sticky=W)
     date_slection = StringVar()
@@ -172,6 +178,17 @@ def settings_window():
             setting_frame, text=date_time[i], font=30, value=date_time[i], variable=date_slection)
         p_radiobutton.grid(column=1, row=i+2, sticky=W)
 
+    # Thay đổi đơn vị nhiệt độ
+    Label(setting_frame, text='Đơn vị nhiệt độ',
+          font=(40)).grid(column=0, row=5)
+    temp_slection = StringVar()
+    temp = ['°C', '°F']
+    temp_slection.set(dv_nhiet_do[0])
+    for i in range(len(temp)):
+        t_radiobutton = Radiobutton(
+            setting_frame, text=temp[i], font=30, value=temp[i], variable=temp_slection)
+        t_radiobutton.grid(column=i + 1, row=5, sticky=W)
+
     chon = Button(st_window, text='OK', font=20, command=confirm)
     chon.place(x=350, y=450)
 
@@ -181,6 +198,7 @@ data = []
 dv_toc_do_gio = ['km/h']
 dv_ap_suat = ['mBar']
 hien_thi_ngay = ['dd-mm-yyyy']
+dv_nhiet_do = ["°C"]
 
 
 window = Tk()
