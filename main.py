@@ -119,10 +119,16 @@ def settings_window():
 
     def change_date():
         if date_slection.get() == date_time[0]:
+            hien_thi_ngay.clear()
+            hien_thi_ngay.append(date_time[0])
             return d_m_y()
         elif date_slection.get() == date_time[1]:
+            hien_thi_ngay.clear()
+            hien_thi_ngay.append(date_time[1])
             return m_d_y()
         elif date_slection.get() == date_time[2]:
+            hien_thi_ngay.clear()
+            hien_thi_ngay.append(date_time[2])
             return y_m_d()
 
     st_window = Toplevel()
@@ -143,7 +149,7 @@ def settings_window():
     for i in range(len(wind_speed)):
         w_radiobutton = Radiobutton(
             setting_frame, text=wind_speed[i], font=30, value=wind_speed[i], variable=wind_slection)
-        w_radiobutton.grid(column=i+1, row=0)
+        w_radiobutton.grid(column=i+1, row=0, sticky=W)
 
     # Thay đổi đơn vị áp suất
     Label(setting_frame, text='Đơn vị áp suất',
@@ -154,16 +160,17 @@ def settings_window():
     for i in range(len(pressure)):
         p_radiobutton = Radiobutton(
             setting_frame, text=pressure[i], font=30, value=pressure[i], variable=pressure_slection)
-        p_radiobutton.grid(column=i+1, row=1)
+        p_radiobutton.grid(column=i+1, row=1, sticky=W)
 
     Label(setting_frame, text='Dạng ngày',
           font=(40)).grid(column=0, row=2, sticky=W)
     date_slection = StringVar()
     date_time = ['dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd']
+    date_slection.set(hien_thi_ngay[0])
     for i in range(len(date_time)):
         p_radiobutton = Radiobutton(
             setting_frame, text=date_time[i], font=30, value=date_time[i], variable=date_slection)
-        p_radiobutton.grid(column=1, row=i+2)
+        p_radiobutton.grid(column=1, row=i+2, sticky=W)
 
     chon = Button(st_window, text='OK', font=20, command=confirm)
     chon.place(x=350, y=450)
@@ -173,6 +180,7 @@ def settings_window():
 data = []
 dv_toc_do_gio = ['km/h']
 dv_ap_suat = ['mBar']
+hien_thi_ngay = ['dd-mm-yyyy']
 
 
 window = Tk()
