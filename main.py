@@ -1,5 +1,7 @@
+import imghdr
 from tkinter import *
 import tkinter as tk
+from PIL import Image, ImageTk
 from geopy.geocoders import Nominatim
 from tkinter import ttk, messagebox
 from timezonefinder import TimezoneFinder
@@ -32,6 +34,7 @@ def getweather():
         json_data = requests.get(api).json()
         data.clear()
         data.append(json_data)
+        print(data)
     except:
         messagebox.showerror(
             title='Error', message='Không thể lấy dữ liệu thời tiết hiện tại')
@@ -80,6 +83,12 @@ def m_d_y():
 
 def current_weather():
     getweather()
+    # if data[0]['weather'][0]['description'] == "broken clouds":
+    #     canvas = Canvas(window, width=900, height=500)
+    #     canvas.pack(fill='both', expand=True)
+    #     bg = ImageTk.PhotoImage(Image.open("scatteredclouds.png"))
+    #     canvas.create_image(0, 0, image=bg, anchor="nw")
+    #     print("Oke con de")
     if data == []:
         pass
     elif len(data[0]) == 2:
@@ -168,9 +177,9 @@ def settings_window():
     date_time = ['dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd']
     date_slection.set(hien_thi_ngay[0])
     for i in range(len(date_time)):
-        p_radiobutton = Radiobutton(
+        d_radiobutton = Radiobutton(
             setting_frame, text=date_time[i], font=30, value=date_time[i], variable=date_slection)
-        p_radiobutton.grid(column=1, row=i+2, sticky=W)
+        d_radiobutton.grid(column=1, row=i+2, sticky=W)
 
     chon = Button(st_window, text='OK', font=20, command=confirm)
     chon.place(x=350, y=450)
@@ -185,7 +194,7 @@ hien_thi_ngay = ['dd-mm-yyyy']
 
 window = Tk()
 window.title("Weather App")
-window.geometry('900x500+300+200')
+window.geometry('900x500')
 window.geometry('+%d+%d' % (300, 150))
 window.resizable(FALSE, False)
 # weather_icon = PhotoImage(file='weather.png')
