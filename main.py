@@ -23,9 +23,9 @@ def getweather():
         current_time = local_time.strftime("%I : %M %p")
         clock.config(text=current_time)
         name.config(text="THỜI GIAN")
-        data1 = []
-        data1.append(current_time)
-        print(data1)
+        if date['text'] == " ":
+            d_m_y()
+
         # weather
         api = "https://api.openweathermap.org/data/2.5/weather?q=" + \
               city + "&appid=f17f6b26cb023da304d45eb16c6c35a9"
@@ -37,6 +37,45 @@ def getweather():
             title='Error', message='Không thể lấy dữ liệu thời tiết hiện tại')
 
 # Hiển thị thông tin thời tiết hiện tại trên giao diện
+
+
+def y_m_d():
+    city = textfield.get()
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.geocode(city)
+    obj = TimezoneFinder()
+    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+    home = pytz.timezone(result)
+    local_time = datetime.now(home)
+    current_time = local_time.strftime('%Y/%m/%d')
+    date.config(text=current_time)
+    name.config(text="THỜI GIAN")
+
+
+def d_m_y():
+    city = textfield.get()
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.geocode(city)
+    obj = TimezoneFinder()
+    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+    home = pytz.timezone(result)
+    local_time = datetime.now(home)
+    current_time = local_time.strftime('%d/%m/%Y')
+    date.config(text=current_time)
+    name.config(text="THỜI GIAN")
+
+
+def m_d_y():
+    city = textfield.get()
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.geocode(city)
+    obj = TimezoneFinder()
+    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+    home = pytz.timezone(result)
+    local_time = datetime.now(home)
+    current_time = local_time.strftime('%m/%d/%Y')
+    date.config(text=current_time)
+    name.config(text="THỜI GIAN")
 
 
 def current_weather():
@@ -75,7 +114,16 @@ def settings_window():
         dv_ap_suat.clear()
         dv_ap_suat.append(pressure_slection.get())
         st_window.destroy()
+        change_date()
         current_weather()
+
+    def change_date():
+        if date_slection.get() == date_time[0]:
+            return d_m_y()
+        elif date_slection.get() == date_time[1]:
+            return m_d_y()
+        elif date_slection.get() == date_time[2]:
+            return y_m_d()
 
     st_window = Toplevel()
     st_window.geometry('400x500')
@@ -107,6 +155,15 @@ def settings_window():
         p_radiobutton = Radiobutton(
             setting_frame, text=pressure[i], font=30, value=pressure[i], variable=pressure_slection)
         p_radiobutton.grid(column=i+1, row=1)
+
+    Label(setting_frame, text='Dạng ngày',
+          font=(40)).grid(column=0, row=2, sticky=W)
+    date_slection = StringVar()
+    date_time = ['dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd']
+    for i in range(len(date_time)):
+        p_radiobutton = Radiobutton(
+            setting_frame, text=date_time[i], font=30, value=date_time[i], variable=date_slection)
+        p_radiobutton.grid(column=1, row=i+2)
 
     chon = Button(st_window, text='OK', font=20, command=confirm)
     chon.place(x=350, y=450)
@@ -157,6 +214,8 @@ name = Label(window, font=('arial', 15, 'bold'))
 name.place(x=30, y=100)
 clock = Label(window, font=('Helvetica', 20))
 clock.place(x=30, y=130)
+date = Label(window, text=" ", font=('Helvetica', 20))
+date.place(x=30, y=160)
 # Label
 label1 = Label(window, text="Tốc độ gió", font=(
     'Helvetica', 15, 'bold'), fg='white', bg='#1ab5ef')
@@ -196,5 +255,5 @@ p.place(x=630, y=430)
 
 setting_button = Button(window, text='Cài đặt', command=settings_window)
 setting_button.place(x=840, y=10)
-
+#
 window.mainloop()
