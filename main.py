@@ -30,7 +30,7 @@ def getweather():
 
         # weather
         api = "https://api.openweathermap.org/data/2.5/weather?q=" + \
-              city + "&appid=f17f6b26cb023da304d45eb16c6c35a9"
+              city + "&appid=f17f6b26cb023da304d45eb16c6c35a9&lang=vi"
         json_data = requests.get(api).json()
         data.clear()
         data.append(json_data)
@@ -122,6 +122,7 @@ def current_weather():
             w.config(text=f'{round(wind / 3.6, 1)} {dv_toc_do_gio[0]}')
         h.config(text=humidity)
         d.config(text=description)
+        d.place(x=450 - len(description) * 6, y=430)
         if dv_ap_suat[0] == 'mBar':
             p.config(text=f'{pressure} {dv_ap_suat[0]}')
         else:
@@ -303,7 +304,7 @@ h.place(x=280, y=430)
 # description
 d = Label(text="...", font=('arial', 20, 'bold'),
           bg='#1ab5ef')
-d.place(x=390, y=430)
+d.place(x=450, y=430)
 # pressure
 p = Label(text="...", font=('arial', 20, 'bold'), bg='#1ab5ef')
 p.place(x=630, y=430)
