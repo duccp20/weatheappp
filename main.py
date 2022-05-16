@@ -42,6 +42,25 @@ def getweather():
 # Hiển thị thông tin thời tiết hiện tại trên giao diện
 
 
+def change_image():
+    rain = PhotoImage(file="rain.png")
+    clouds = PhotoImage(file="clouds.png")
+    clear = PhotoImage(file="clear.png")
+    snow = PhotoImage(file="snow.png")
+    if data[0]['weather'][0]['main'] == "Rain":
+        logo.config(image=rain)
+        logo.image = rain
+    elif data[0]['weather'][0]['main'] == "Clouds":
+        logo.config(image=clouds)
+        logo.image = clouds
+    elif data[0]['weather'][0]['main'] == "Clear":
+        logo.config(image=clear)
+        logo.image = clear
+    else:
+        logo.config(image=snow)
+        logo.image = snow
+
+
 def y_m_d():
     city = textfield.get()
     geolocator = Nominatim(user_agent="geoapiExercises")
@@ -83,12 +102,6 @@ def m_d_y():
 
 def current_weather():
     getweather()
-    # if data[0]['weather'][0]['description'] == "broken clouds":
-    #     canvas = Canvas(window, width=900, height=500)
-    #     canvas.pack(fill='both', expand=True)
-    #     bg = ImageTk.PhotoImage(Image.open("scatteredclouds.png"))
-    #     canvas.create_image(0, 0, image=bg, anchor="nw")
-    #     print("Oke con de")
     if data == []:
         pass
     elif len(data[0]) == 2:
@@ -117,6 +130,7 @@ def current_weather():
             t.config(text=f'{temp} {dv_nhiet_do[0]}')
         else:
             t.config(text=f'{round(temp * (9 / 5) + 32)} {dv_nhiet_do[0]}')
+    change_image()
 
 
 def settings_window():
@@ -177,7 +191,6 @@ def settings_window():
             setting_frame, text=pressure[i], font=30, value=pressure[i], variable=pressure_slection)
         p_radiobutton.grid(column=i+1, row=1, sticky=W)
 
-
     Label(setting_frame, text='Dạng ngày',
           font=(40)).grid(column=0, row=2, sticky=W)
     date_slection = StringVar()
@@ -235,10 +248,16 @@ search_icon = Button(image=search_icon_image, borderwidth=0,
                      cursor='hand2', bg='#404040', command=current_weather)
 search_icon.place(x=400, y=34)
 
+
+# canvas = Canvas(window, width=900, height=500)
+# canvas.pack(fill='both', expand=True)
+# bg = ImageTk.PhotoImage(Image.open("scatteredclouds.png"))
+# canvas.create_image(0, 0, image=bg, anchor="nw")
+
 # logo
 logo_image = PhotoImage(file='logo.png')
 logo = Label(image=logo_image)
-logo.place(x=150, y=100)
+logo.place(x=170, y=100)
 
 # Bottom box
 bottom_box_image = PhotoImage(file='box.png')
@@ -254,7 +273,7 @@ date = Label(window, text=" ", font=('Helvetica', 20))
 date.place(x=30, y=160)
 # Label
 label1 = Label(window, text="Tốc độ gió", font=(
-    'Helvetica', 15, 'bold'), fg='white', bg='#1ab5ef')
+    'Helvetica', 15, 'bold'), fg='white''', bg='#1ab5ef''')
 label1.place(x=100, y=400)
 
 label2 = Label(window, text="Độ ẩm", font=(
