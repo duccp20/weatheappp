@@ -131,7 +131,7 @@ def current_weather():
             t.config(text=f'{temp} {dv_nhiet_do[0]}')
         else:
             t.config(text=f'{round(temp * (9 / 5) + 32)} {dv_nhiet_do[0]}')
-    change_image()
+        change_image()
 
 
 def settings_window():
