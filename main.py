@@ -100,7 +100,7 @@ def current_weather():
             w.config(text=f'{round(wind / 3.6, 1)} {dv_toc_do_gio[0]}')
         h.config(text=humidity)
         d.config(text=description)
-        d.place(x=440 - len(description) * 4, y=430)
+        d.place(x=450 - len(description) * 6, y=430)
         if dv_ap_suat[0] == 'mBar':
             p.config(text=f'{pressure} {dv_ap_suat[0]}')
         else:
