@@ -10,7 +10,7 @@ import requests
 import pytz
 
 # Lấy dữ liệu thời tiết hiện tại
-
+# laaaaaaa
 
 def getweather():
     try:
