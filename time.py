@@ -98,28 +98,6 @@ def m_d_y():
     date.config(text=current_time)
     name.config(text="THỜI GIAN")
 
-def haft():
-    city = textfield.get()
-    geolocator = Nominatim(user_agent="geoapiExercises")
-    location = geolocator.geocode(city)
-    obj = TimezoneFinder()
-    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
-    home = pytz.timezone(result)
-    local_time = datetime.now(home)
-    current_time = local_time.strftime("%I : %M %p")
-    clock.config(text=current_time)
-    name.config(text="THỜI GIAN")
-def one():
-    city = textfield.get()
-    geolocator = Nominatim(user_agent="geoapiExercises")
-    location = geolocator.geocode(city)
-    obj = TimezoneFinder()
-    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
-    home = pytz.timezone(result)
-    local_time = datetime.now(home)
-    current_time = local_time.strftime("%H:%M")
-    clock.config(text=current_time)
-    name.config(text="THỜI GIAN")
 def current_weather():
     getweather()
     if data == []:
@@ -153,15 +131,24 @@ def current_weather():
             t.config(text=f'{round(temp * (9 / 5) + 32)} {dv_nhiet_do[0]}')
         change_image()
         change_hour()
+
 def change_hour():
-    if hour_slection.get() == hour_time[0]:
-        hien_thi_gio.clear()
-        hien_thi_gio.append(hour_time[0])
-        return haft()
+    city = textfield.get()
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.geocode(city)
+    obj = TimezoneFinder()
+    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+    home = pytz.timezone(result)
+    local_time = datetime.now(home)
+    name.config(text="THỜI GIAN")
+    if hien_thi_gio[0] == '12h':
+        current_time = local_time.strftime("%I : %M %p")
+        clock.config(text=current_time)
     else:
-        hien_thi_gio.clear()
-        hien_thi_gio.append(hour_time[1])
-        return one()
+        current_time = local_time.strftime("%H:%M")
+        clock.config(text=current_time)
+
+
 def settings_window():
     def confirm():
         dv_toc_do_gio.clear()
@@ -174,6 +161,7 @@ def settings_window():
         change_date()
         hien_thi_gio.clear()
         hien_thi_gio.append(hour_slection.get())
+        change_hour()
         current_weather()
 
     def change_date():
@@ -245,7 +233,7 @@ def settings_window():
 
     # Thay đổi đơn vị nhiệt đội
     Label(setting_frame, text='Đơn vị nhiệt độ',
-          font=(40)).grid(column=0, row=5)
+          font=(40)).grid(column=0, row=5, sticky=W)
     temp_slection = StringVar()
     temp = ['°C', '°F']
     temp_slection.set(dv_nhiet_do[0])
@@ -265,7 +253,7 @@ dv_ap_suat = ['mBar']
 hien_thi_ngay = ['dd-mm-yyyy']
 hien_thi_gio = ['12h']
 dv_nhiet_do = ["°C"]
-
+hien_thi_gio = ['12h']
 
 
 window = Tk()
