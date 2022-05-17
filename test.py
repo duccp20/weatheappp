@@ -1,7 +1,7 @@
+from email.mime import image
 import imghdr
 from tkinter import *
 import tkinter as tk
-from venv import create
 from PIL import Image, ImageTk
 from geopy.geocoders import Nominatim
 from tkinter import ttk, messagebox
@@ -11,6 +11,7 @@ import requests
 import pytz
 
 # Lấy dữ liệu thời tiết hiện tại
+# laaaaaaa
 
 
 def getweather():
@@ -26,12 +27,12 @@ def getweather():
         current_time = local_time.strftime("%I : %M %p")
         clock.config(text=current_time)
         name.config(text="THỜI GIAN")
-        # if date['text'] == " ":
-        #     d_m_y()
+        if date['text'] == " ":
+            d_m_y()
 
         # weather
         api = "https://api.openweathermap.org/data/2.5/weather?q=" + \
-              city + "&appid=f17f6b26cb023da304d45eb16c6c35a9"
+              city + "&appid=f17f6b26cb023da304d45eb16c6c35a9&lang=vi"
         json_data = requests.get(api).json()
         data.clear()
         data.append(json_data)
@@ -43,23 +44,23 @@ def getweather():
 # Hiển thị thông tin thời tiết hiện tại trên giao diện
 
 
-def change_image():
-    rain = PhotoImage(file="rain.png")
-    clouds = PhotoImage(file="clouds.png")
-    clear = PhotoImage(file="clear.png")
-    snow = PhotoImage(file="snow.png")
-    if data[0]['weather'][0]['main'] == "Rain":
-        logo.config(image=rain)
-        logo.image = rain
-    elif data[0]['weather'][0]['main'] == "Clouds":
-        logo.config(image=clouds)
-        logo.image = clouds
-    elif data[0]['weather'][0]['main'] == "Clear":
-        logo.config(image=clear)
-        logo.image = clear
-    else:
-        logo.config(image=snow)
-        logo.image = snow
+# def change_image():
+      # rain = PhotoImage(file="rain.png")
+#     clouds = PhotoImage(file="clouds.png")
+#     clear = PhotoImage(file="clear.png")
+#     snow = PhotoImage(file="snow.png")
+#     if data[0]['weather'][0]['main'] == "Rain":
+#         logo.config(image=rain)
+#         logo.image = rain
+#     elif data[0]['weather'][0]['main'] == "Clouds":
+#         logo.config(image=clouds)
+#         logo.image = clouds
+#     elif data[0]['weather'][0]['main'] == "Clear":
+#         logo.config(image=clear)
+#         logo.image = clear
+#     else:
+#         logo.config(image=snow)
+#         logo.image = snow`
 
 
 def y_m_d():
@@ -123,6 +124,7 @@ def current_weather():
             w.config(text=f'{round(wind / 3.6, 1)} {dv_toc_do_gio[0]}')
         h.config(text=humidity)
         d.config(text=description)
+        d.place(x=450 - len(description) * 6, y=430)
         if dv_ap_suat[0] == 'mBar':
             p.config(text=f'{pressure} {dv_ap_suat[0]}')
         else:
@@ -232,9 +234,48 @@ window.geometry('+%d+%d' % (300, 150))
 window.resizable(FALSE, False)
 # weather_icon = PhotoImage(file='weather.png')
 # window.iconphoto(True,weather_icon)
+logo_image = PhotoImage(file='logo.png')
+logo = Label(image=logo_image)
+# logo.place(x=170, y=100)
+
+canvas = Canvas(window, width=900, height=500)
+canvas.pack(fill='both', expand=True)
+bg = ImageTk.PhotoImage(Image.open("scatteredclouds.png"))
+canvas.create_image(0, 0, image=bg, anchor="nw")
+logo_image = PhotoImage(file='logo.png')
+canvas.create_image(250, 200, image=logo_image)
 
 
 # search box
+def change_image():
+    canvas = Canvas(window, width=900, height=500)
+    canvas.pack(fill='both', expand=True)
+    bg = ImageTk.PhotoImage(Image.open("scatteredclouds.png"))
+    canvas.create_image(0, 0, image=bg, anchor="nw")
+    logo_image = PhotoImage(file='logo.png')
+    canvas.create_image(250, 200, image=logo_image)
+    rain = PhotoImage(file="rain.png")
+    clouds = PhotoImage(file="clouds.png")
+    clear = PhotoImage(file="clear.png")
+    snow = PhotoImage(file="snow.png")
+    if data[0]['weather'][0]['main'] == "Rain":
+        logo_image.config(rain)
+        # logo_image.image = rain
+        canvas.create_image(250, 200, image=logo_image)
+    elif data[0]['weather'][0]['main'] == "Clouds":
+        logo_image.config(clouds)
+        # logo_image.image = clouds
+        canvas.create_image(250, 200, image=logo_image)
+    elif data[0]['weather'][0]['main'] == "Clear":
+        logo_image.config(clear)
+        # logo_image.image = clear
+        canvas.create_image(250, 200, image=logo_image)
+    else:
+        logo_image.config(snow)
+        logo_image.image = snow
+        canvas.create_image(250, 200, image=logo_image)
+
+
 search_image = PhotoImage(file='search.png')
 search_box = Label(image=search_image)
 search_box.place(x=20, y=20)
@@ -250,23 +291,16 @@ search_icon = Button(image=search_icon_image, borderwidth=0,
 search_icon.place(x=400, y=34)
 
 
-# canvas = Canvas(window, width=900, height=500)
-# canvas.pack(fill='both', expand=True)
-# bg = ImageTk.PhotoImage(Image.open("scatteredclouds.png"))
-# canvas.create_image(0, 0, image=bg, anchor="nw")
-
 # logo
-logo_image = PhotoImage(file='logo.png')
-logo = Label(image=logo_image)
-logo.place(x=170, y=100)
+# logo_image = PhotoImage(file='logo.png')
+# logo = Label(image=logo_image)
+# logo.place(x=170, y=100)
 
 # Bottom box
 bottom_box_image = PhotoImage(file='box.png')
 bottom_box = Label(image=bottom_box_image)
 bottom_box.pack(padx=5, pady=5, side=BOTTOM)
-canvas = Canvas(window, width=900, height=200)
-canvas.pack(side=BOTTOM)
-canvas = create.window(width=)
+
 # time
 name = Label(window, font=('arial', 15, 'bold'))
 name.place(x=30, y=100)
@@ -306,12 +340,12 @@ h.place(x=280, y=430)
 # description
 d = Label(text="...", font=('arial', 20, 'bold'),
           bg='#1ab5ef')
-d.place(x=390, y=430)
+d.place(x=450, y=430)
 # pressure
 p = Label(text="...", font=('arial', 20, 'bold'), bg='#1ab5ef')
 p.place(x=630, y=430)
 
 setting_button = Button(window, text='Cài đặt', command=settings_window)
 setting_button.place(x=840, y=10)
-#
+
 window.mainloop()

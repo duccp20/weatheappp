@@ -12,6 +12,7 @@ import pytz
 # Lấy dữ liệu thời tiết hiện tại
 # laaaaaaa
 
+
 def getweather():
     try:
         city = textfield.get()
@@ -192,6 +193,7 @@ def settings_window():
             setting_frame, text=pressure[i], font=30, value=pressure[i], variable=pressure_slection)
         p_radiobutton.grid(column=i+1, row=1, sticky=W)
 
+    # Thay đổi dạng ngày
     Label(setting_frame, text='Dạng ngày',
           font=(40)).grid(column=0, row=2, sticky=W)
     date_slection = StringVar()
