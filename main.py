@@ -311,5 +311,5 @@ p.place(x=630, y=430)
 
 setting_button = Button(window, text='Cài đặt', command=settings_window)
 setting_button.place(x=840, y=10)
-#
+
 window.mainloop()

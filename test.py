@@ -1,6 +1,7 @@
 import imghdr
 from tkinter import *
 import tkinter as tk
+from venv import create
 from PIL import Image, ImageTk
 from geopy.geocoders import Nominatim
 from tkinter import ttk, messagebox
@@ -25,8 +26,8 @@ def getweather():
         current_time = local_time.strftime("%I : %M %p")
         clock.config(text=current_time)
         name.config(text="THỜI GIAN")
-        if date['text'] == " ":
-            d_m_y()
+        # if date['text'] == " ":
+        #     d_m_y()
 
         # weather
         api = "https://api.openweathermap.org/data/2.5/weather?q=" + \
@@ -130,7 +131,7 @@ def current_weather():
             t.config(text=f'{temp} {dv_nhiet_do[0]}')
         else:
             t.config(text=f'{round(temp * (9 / 5) + 32)} {dv_nhiet_do[0]}')
-    change_image()
+        change_image()
 
 
 def settings_window():
@@ -263,7 +264,9 @@ logo.place(x=170, y=100)
 bottom_box_image = PhotoImage(file='box.png')
 bottom_box = Label(image=bottom_box_image)
 bottom_box.pack(padx=5, pady=5, side=BOTTOM)
-
+canvas = Canvas(window, width=900, height=200)
+canvas.pack(side=BOTTOM)
+canvas = create.window(width=)
 # time
 name = Label(window, font=('arial', 15, 'bold'))
 name.place(x=30, y=100)
