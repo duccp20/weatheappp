@@ -15,7 +15,6 @@ import pytz
 def getweather():
     try:
         city = textfield.get()
-
         geolocator = Nominatim(user_agent="geoapiExercises")
         location = geolocator.geocode(city)
         obj = TimezoneFinder()
@@ -99,7 +98,6 @@ def m_d_y():
     date.config(text=current_time)
     name.config(text="THỜI GIAN")
 
-
 def current_weather(event=None):
     getweather()
     if data == []:
@@ -132,6 +130,23 @@ def current_weather(event=None):
         else:
             t.config(text=f'{round(temp * (9 / 5) + 32)} {dv_nhiet_do[0]}')
         change_image()
+        change_hour()
+
+def change_hour():
+    city = textfield.get()
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.geocode(city)
+    obj = TimezoneFinder()
+    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+    home = pytz.timezone(result)
+    local_time = datetime.now(home)
+    name.config(text="THỜI GIAN")
+    if hien_thi_gio[0] == '12h':
+        current_time = local_time.strftime("%I : %M %p")
+        clock.config(text=current_time)
+    else:
+        current_time = local_time.strftime("%H:%M")
+        clock.config(text=current_time)
 
 
 def settings_window():
@@ -144,6 +159,9 @@ def settings_window():
         dv_nhiet_do.append(temp_slection.get())
         st_window.destroy()
         change_date()
+        hien_thi_gio.clear()
+        hien_thi_gio.append(hour_slection.get())
+        change_hour()
         current_weather()
 
     def change_date():
@@ -324,5 +342,5 @@ p.place(x=630, y=430)
 
 setting_button = Button(window, text='Cài đặt', command=settings_window)
 setting_button.place(x=840, y=10)
-#
+
 window.mainloop()

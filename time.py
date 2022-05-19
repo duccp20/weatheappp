@@ -220,6 +220,7 @@ def settings_window():
         d_radiobutton = Radiobutton(
             setting_frame, text=date_time[i], font=30, value=date_time[i], variable=date_slection)
         d_radiobutton.grid(column=1, row=i+2, sticky=W)
+
     #Thay đổi dạng thời gian
     Label(setting_frame, text='Dạng thời gian',
           font=(40)).grid(column=0, row=6, sticky=W)
