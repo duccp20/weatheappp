@@ -22,9 +22,15 @@ def getweather():
         result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
         home = pytz.timezone(result)
         local_time = datetime.now(home)
-        current_time = local_time.strftime("%I : %M %p")
-        clock.config(text=current_time)
+        # current_time = local_time.strftime("%I : %M %p")
+        # clock.config(text=current_time)
         name.config(text="THỜI GIAN")
+        if hien_thi_gio[0] == '12h':
+            current_time = local_time.strftime("%I : %M %p")
+            clock.config(text=current_time)
+        else:
+            current_time = local_time.strftime("%H:%M")
+            clock.config(text=current_time)
         if date['text'] == " ":
             d_m_y()
 
@@ -132,24 +138,6 @@ def current_weather():
         else:
             t.config(text=f'{round(temp * (9 / 5) + 32)} {dv_nhiet_do[0]}')
         change_image()
-        change_hour()
-
-
-def change_hour():
-    city = textfield.get()
-    geolocator = Nominatim(user_agent="geoapiExercises")
-    location = geolocator.geocode(city)
-    obj = TimezoneFinder()
-    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
-    home = pytz.timezone(result)
-    local_time = datetime.now(home)
-    name.config(text="THỜI GIAN")
-    if hien_thi_gio[0] == '12h':
-        current_time = local_time.strftime("%I : %M %p")
-        clock.config(text=current_time)
-    else:
-        current_time = local_time.strftime("%H:%M")
-        clock.config(text=current_time)
 
 
 def settings_window():
@@ -164,7 +152,6 @@ def settings_window():
         change_date()
         hien_thi_gio.clear()
         hien_thi_gio.append(hour_slection.get())
-        change_hour()
         current_weather()
 
     def change_date():
@@ -182,76 +169,71 @@ def settings_window():
             return y_m_d()
 
     st_window = Toplevel()
-    st_window.geometry('350x350')
-    st_window.geometry('+%d+%d' % (850, 150))
+    st_window.geometry('400x500')
+    st_window.geometry('+%d+%d' % (800, 150))
     st_window.title('Cài đặt')
     st_window.resizable(FALSE, False)
 
-    Label(st_window, text='Cài đặt', font=('arial', 30)).place(x=120, y=7)
+    Label(st_window, text='Cài đặt', font=('arial', 30)).place(x=135, y=10)
 
     setting_frame = Frame(st_window)
     setting_frame.place(x=10, y=60)
     # Thay đổi đơn vị tốc độ gió
     Label(setting_frame, text='Đơn vị tốc độ gió',
-          font=(40)).grid(column=0, row=1)
+          font=(40)).grid(column=0, row=0)
     wind_slection = StringVar()
     wind_speed = ['km/h', 'm/s']
     wind_slection.set(dv_toc_do_gio[0])
     for i in range(len(wind_speed)):
         w_radiobutton = Radiobutton(
             setting_frame, text=wind_speed[i], font=30, value=wind_speed[i], variable=wind_slection)
-        w_radiobutton.grid(column=i+1, row=1, sticky=W)
+        w_radiobutton.grid(column=i+1, row=0, sticky=W)
 
     # Thay đổi đơn vị áp suất
     Label(setting_frame, text='Đơn vị áp suất',
-          font=(40)).grid(column=0, row=2, sticky=W)
+          font=(40)).grid(column=0, row=1, sticky=W)
     pressure_slection = StringVar()
     pressure = ['mBar', 'mmHg']
     pressure_slection.set(dv_ap_suat[0])
     for i in range(len(pressure)):
         p_radiobutton = Radiobutton(
             setting_frame, text=pressure[i], font=30, value=pressure[i], variable=pressure_slection)
-        p_radiobutton.grid(column=i+1, row=2, sticky=W)
+        p_radiobutton.grid(column=i+1, row=1, sticky=W)
 
-
-<< << << < HEAD
-# Thay đổi dạng ngày
-== == == =
-# Thay đổi dạng ngày tháng năm
->>>>>> > e4d7ccae75f4fee2c80aa213654f5c10de498209
-Label(setting_frame, text='Dạng ngày',
-      font=(40)).grid(column=0, row=3, sticky=W)
-date_slection = StringVar()
- date_time = ['dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd']
-  date_slection.set(hien_thi_ngay[0])
-   for i in range(len(date_time)):
+    # Thay đổi dạng ngày tháng năm
+    Label(setting_frame, text='Dạng ngày',
+          font=(40)).grid(column=0, row=2, sticky=W)
+    date_slection = StringVar()
+    date_time = ['dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd']
+    date_slection.set(hien_thi_ngay[0])
+    for i in range(len(date_time)):
         d_radiobutton = Radiobutton(
             setting_frame, text=date_time[i], font=30, value=date_time[i], variable=date_slection)
-        d_radiobutton.grid(column=1, row=i+3, sticky=W)
+        d_radiobutton.grid(column=1, row=i+2, sticky=W)
     # Thay đổi dạng thời gian
     Label(setting_frame, text='Dạng thời gian',
-          font=(40)).grid(column=0, row=7, sticky=W)
+          font=(40)).grid(column=0, row=6, sticky=W)
     hour_slection = StringVar()
     hour_time = ['12h', '24h']
     hour_slection.set(hien_thi_gio[0])
     for i in range(len(hour_time)):
         r_radiobutton = Radiobutton(
             setting_frame, text=hour_time[i], font=30, value=hour_time[i], variable=hour_slection)
-        r_radiobutton.grid(column=i+1, row=7, sticky=W)
+        r_radiobutton.grid(column=i+1, row=6, sticky=W)
 
     # Thay đổi đơn vị nhiệt đội
     Label(setting_frame, text='Đơn vị nhiệt độ',
-          font=(40)).grid(column=0, row=6, sticky=W)
+          font=(40)).grid(column=0, row=5, sticky=W)
     temp_slection = StringVar()
     temp = ['°C', '°F']
     temp_slection.set(dv_nhiet_do[0])
     for i in range(len(temp)):
         t_radiobutton = Radiobutton(
             setting_frame, text=temp[i], font=30, value=temp[i], variable=temp_slection)
-        t_radiobutton.grid(column=i + 1, row=6, sticky=W)
+        t_radiobutton.grid(column=i + 1, row=5, sticky=W)
 
     chon = Button(st_window, text='OK', font=20, command=confirm)
-    chon.place(x=300, y=300)
+    chon.place(x=350, y=450)
 
 
 # Mặc định
@@ -271,7 +253,6 @@ window.resizable(FALSE, False)
 # weather_icon = PhotoImage(file='weather.png')
 # window.iconphoto(True,weather_icon)
 
-
 # search box
 search_image = PhotoImage(file='search.png')
 search_box = Label(image=search_image)
@@ -286,12 +267,6 @@ search_icon_image = PhotoImage(file='search_icon.png')
 search_icon = Button(image=search_icon_image, borderwidth=0,
                      cursor='hand2', bg='#404040', command=current_weather)
 search_icon.place(x=400, y=34)
-
-
-# canvas = Canvas(window, width=900, height=500)
-# canvas.pack(fill='both', expand=True)
-# bg = ImageTk.PhotoImage(Image.open("scatteredclouds.png"))
-# canvas.create_image(0, 0, image=bg, anchor="nw")
 
 # logo
 logo_image = PhotoImage(file='logo.png')
@@ -353,5 +328,5 @@ p.place(x=630, y=430)
 
 setting_button = Button(window, text='Cài đặt', command=settings_window)
 setting_button.place(x=840, y=10)
-
+#
 window.mainloop()
