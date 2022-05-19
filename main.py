@@ -16,7 +16,6 @@ import pytz
 def getweather():
     try:
         city = textfield.get()
-
         geolocator = Nominatim(user_agent="geoapiExercises")
         location = geolocator.geocode(city)
         obj = TimezoneFinder()
@@ -115,7 +114,7 @@ def current_weather():
         pressure = data[0]['main']['pressure']
         humidity = data[0]['main']['humidity']
         wind = data[0]['wind']['speed']
-
+        # rainfall = data[0]['main']['rainfall']
         c.config(text=(condition, "|", "FEELS", "LIKE", temp, "°"))
         if dv_toc_do_gio[0] == 'km/h':
             w.config(text=f'{wind} {dv_toc_do_gio[0]}')
@@ -133,6 +132,24 @@ def current_weather():
         else:
             t.config(text=f'{round(temp * (9 / 5) + 32)} {dv_nhiet_do[0]}')
         change_image()
+        change_hour()
+
+
+def change_hour():
+    city = textfield.get()
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.geocode(city)
+    obj = TimezoneFinder()
+    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+    home = pytz.timezone(result)
+    local_time = datetime.now(home)
+    name.config(text="THỜI GIAN")
+    if hien_thi_gio[0] == '12h':
+        current_time = local_time.strftime("%I : %M %p")
+        clock.config(text=current_time)
+    else:
+        current_time = local_time.strftime("%H:%M")
+        clock.config(text=current_time)
 
 
 def settings_window():
@@ -145,6 +162,9 @@ def settings_window():
         dv_nhiet_do.append(temp_slection.get())
         st_window.destroy()
         change_date()
+        hien_thi_gio.clear()
+        hien_thi_gio.append(hour_slection.get())
+        change_hour()
         current_weather()
 
     def change_date():
@@ -162,61 +182,76 @@ def settings_window():
             return y_m_d()
 
     st_window = Toplevel()
-    st_window.geometry('400x500')
-    st_window.geometry('+%d+%d' % (800, 150))
+    st_window.geometry('350x350')
+    st_window.geometry('+%d+%d' % (850, 150))
     st_window.title('Cài đặt')
     st_window.resizable(FALSE, False)
 
-    Label(st_window, text='Cài đặt', font=('arial', 30)).place(x=135, y=10)
+    Label(st_window, text='Cài đặt', font=('arial', 30)).place(x=120, y=7)
 
     setting_frame = Frame(st_window)
     setting_frame.place(x=10, y=60)
     # Thay đổi đơn vị tốc độ gió
     Label(setting_frame, text='Đơn vị tốc độ gió',
-          font=(40)).grid(column=0, row=0)
+          font=(40)).grid(column=0, row=1)
     wind_slection = StringVar()
     wind_speed = ['km/h', 'm/s']
     wind_slection.set(dv_toc_do_gio[0])
     for i in range(len(wind_speed)):
         w_radiobutton = Radiobutton(
             setting_frame, text=wind_speed[i], font=30, value=wind_speed[i], variable=wind_slection)
-        w_radiobutton.grid(column=i+1, row=0, sticky=W)
+        w_radiobutton.grid(column=i+1, row=1, sticky=W)
 
     # Thay đổi đơn vị áp suất
     Label(setting_frame, text='Đơn vị áp suất',
-          font=(40)).grid(column=0, row=1, sticky=W)
+          font=(40)).grid(column=0, row=2, sticky=W)
     pressure_slection = StringVar()
     pressure = ['mBar', 'mmHg']
     pressure_slection.set(dv_ap_suat[0])
     for i in range(len(pressure)):
         p_radiobutton = Radiobutton(
             setting_frame, text=pressure[i], font=30, value=pressure[i], variable=pressure_slection)
-        p_radiobutton.grid(column=i+1, row=1, sticky=W)
+        p_radiobutton.grid(column=i+1, row=2, sticky=W)
 
-    # Thay đổi dạng ngày
-    Label(setting_frame, text='Dạng ngày',
-          font=(40)).grid(column=0, row=2, sticky=W)
-    date_slection = StringVar()
-    date_time = ['dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd']
-    date_slection.set(hien_thi_ngay[0])
-    for i in range(len(date_time)):
+
+<< << << < HEAD
+# Thay đổi dạng ngày
+== == == =
+# Thay đổi dạng ngày tháng năm
+>>>>>> > e4d7ccae75f4fee2c80aa213654f5c10de498209
+Label(setting_frame, text='Dạng ngày',
+      font=(40)).grid(column=0, row=3, sticky=W)
+date_slection = StringVar()
+ date_time = ['dd-mm-yyyy', 'mm-dd-yyyy', 'yyyy-mm-dd']
+  date_slection.set(hien_thi_ngay[0])
+   for i in range(len(date_time)):
         d_radiobutton = Radiobutton(
             setting_frame, text=date_time[i], font=30, value=date_time[i], variable=date_slection)
-        d_radiobutton.grid(column=1, row=i+2, sticky=W)
+        d_radiobutton.grid(column=1, row=i+3, sticky=W)
+    # Thay đổi dạng thời gian
+    Label(setting_frame, text='Dạng thời gian',
+          font=(40)).grid(column=0, row=7, sticky=W)
+    hour_slection = StringVar()
+    hour_time = ['12h', '24h']
+    hour_slection.set(hien_thi_gio[0])
+    for i in range(len(hour_time)):
+        r_radiobutton = Radiobutton(
+            setting_frame, text=hour_time[i], font=30, value=hour_time[i], variable=hour_slection)
+        r_radiobutton.grid(column=i+1, row=7, sticky=W)
 
-    # Thay đổi đơn vị nhiệt độ
+    # Thay đổi đơn vị nhiệt đội
     Label(setting_frame, text='Đơn vị nhiệt độ',
-          font=(40)).grid(column=0, row=5)
+          font=(40)).grid(column=0, row=6, sticky=W)
     temp_slection = StringVar()
     temp = ['°C', '°F']
     temp_slection.set(dv_nhiet_do[0])
     for i in range(len(temp)):
         t_radiobutton = Radiobutton(
             setting_frame, text=temp[i], font=30, value=temp[i], variable=temp_slection)
-        t_radiobutton.grid(column=i + 1, row=5, sticky=W)
+        t_radiobutton.grid(column=i + 1, row=6, sticky=W)
 
     chon = Button(st_window, text='OK', font=20, command=confirm)
-    chon.place(x=350, y=450)
+    chon.place(x=300, y=300)
 
 
 # Mặc định
@@ -224,6 +259,7 @@ data = []
 dv_toc_do_gio = ['km/h']
 dv_ap_suat = ['mBar']
 hien_thi_ngay = ['dd-mm-yyyy']
+hien_thi_gio = ['12h']
 dv_nhiet_do = ["°C"]
 
 
@@ -290,6 +326,10 @@ label3.place(x=420, y=400)
 label4 = Label(window, text="Áp suất", font=(
     'Helvetica', 15, 'bold'), fg='white', bg='#1ab5ef')
 label4.place(x=650, y=400)
+
+# r = Label( text="LƯỢNG MƯA", font=('arial', 20, 'bold'), fg='white',
+#            bg='#1ab5ef')
+# r.place(x=700, y=150)
 
 # temperation
 t = Label(font=('arial', 70, 'bold'), bg='#ee666d')
