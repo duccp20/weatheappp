@@ -321,9 +321,6 @@ label4 = Label(window, text="Áp suất", font=(
     'Helvetica', 15, 'bold'), fg='white', bg='#1ab5ef')
 label4.place(x=650, y=400)
 
-# r = Label( text="LƯỢNG MƯA", font=('arial', 20, 'bold'), fg='white',
-#            bg='#1ab5ef')
-# r.place(x=700, y=150)
 
 # temperation
 t = Label(font=('arial', 70, 'bold'), bg='#ee666d')
@@ -347,5 +344,4 @@ p.place(x=630, y=430)
 
 setting_button = Button(window, text='Cài đặt', command=settings_window)
 setting_button.place(x=840, y=10)
-#
 window.mainloop()
