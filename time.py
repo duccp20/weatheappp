@@ -212,7 +212,7 @@ def change_hour():
         current_time = local_time.strftime("%I : %M %p")
         clock.config(text=current_time)
     else:
-        current_time = local_time.strftime("%H:%M")
+        current_time = local_time.strftime("%H : %M %p")
         clock.config(text=current_time)
 
 
@@ -410,6 +410,7 @@ d.place(x=450, y=430)
 p = Label(text="...", font=('arial', 20, 'bold'), bg='#1ab5ef')
 p.place(x=630, y=430)
 
-setting_button = Button(window, text='Cài đặt', command=settings_window)
-setting_button.place(x=840, y=10)
+setting_image = PhotoImage(file="setting_image.png")
+setting_button = Button(window, image=setting_image, command=settings_window)
+setting_button.place(x=850, y=10)
 window.mainloop()
