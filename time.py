@@ -9,7 +9,7 @@ from datetime import datetime
 import requests
 import pytz
 
-# Lấy dữ liệu thời tiết hiện tại...
+# Lấy dữ liệu thời tiết hiện tại
 
 def getweather():
     try:
@@ -20,9 +20,13 @@ def getweather():
         result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
         home = pytz.timezone(result)
         local_time = datetime.now(home)
-        current_time = local_time.strftime("%I : %M %p")
-        clock.config(text=current_time)
         name.config(text="THỜI GIAN")
+        if hien_thi_gio[0] == '12h':
+            current_time = local_time.strftime("%I : %M %p")
+            clock.config(text=current_time)
+        else:
+            current_time = local_time.strftime("%H : %M")
+            clock.config(text=current_time)
         if date['text'] == " ":
             d_m_y()
 
@@ -36,8 +40,7 @@ def getweather():
         messagebox.showerror(
             title='Error', message='Không thể lấy dữ liệu thời tiết hiện tại')
 
-# Hiển thị thông tin thời tiết hiện tại trên giao diện
-
+#Đổi hình và nền theo thời tiết
 def change_image():
     rain = PhotoImage(file="rain.png")
     clouds = PhotoImage(file="clouds.png")
@@ -159,7 +162,7 @@ def m_d_y():
     date.config(text=current_time)
     name.config(text="THỜI GIAN")
 
-
+# Hiển thị thông tin thời tiết hiện tại trên giao diện
 def current_weather(event=None):
     getweather()
     if data == []:
@@ -192,24 +195,6 @@ def current_weather(event=None):
         else:
             t.config(text=f'{round(temp * (9 / 5) + 32)} {dv_nhiet_do[0]}')
         change_image()
-        change_hour()
-
-
-def change_hour():
-    city = textfield.get()
-    geolocator = Nominatim(user_agent="geoapiExercises")
-    location = geolocator.geocode(city)
-    obj = TimezoneFinder()
-    result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
-    home = pytz.timezone(result)
-    local_time = datetime.now(home)
-    name.config(text="THỜI GIAN")
-    if hien_thi_gio[0] == '12h':
-        current_time = local_time.strftime("%I : %M %p")
-        clock.config(text=current_time)
-    else:
-        current_time = local_time.strftime("%H : %M %p")
-        clock.config(text=current_time)
 
 
 def settings_window():
@@ -224,7 +209,6 @@ def settings_window():
         change_date()
         hien_thi_gio.clear()
         hien_thi_gio.append(hour_slection.get())
-        change_hour()
         current_weather()
 
     def change_date():
@@ -346,12 +330,6 @@ search_icon_image = PhotoImage(file='search_icon.png')
 search_icon = Button(image=search_icon_image, borderwidth=0,
                      cursor='hand2', bg='#404040', command=current_weather)
 search_icon.place(x=400, y=34)
-
-
-# canvas = Canvas(window, width=900, height=500)
-# canvas.pack(fill='both', expand=True)
-# bg = ImageTk.PhotoImage(Image.open("scatteredclouds.png"))
-# canvas.create_image(0, 0, image=bg, anchor="nw")
 
 # logo
 logo_image = PhotoImage(file='logo.png')
