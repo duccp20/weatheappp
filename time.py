@@ -11,6 +11,7 @@ import pytz
 
 # Lấy dữ liệu thời tiết hiện tại
 
+
 def getweather():
     try:
         city = textfield.get()
@@ -40,7 +41,9 @@ def getweather():
         messagebox.showerror(
             title='Error', message='Không thể lấy dữ liệu thời tiết hiện tại')
 
-#Đổi hình và nền theo thời tiết
+# Đổi hình và nền theo thời tiết
+
+
 def change_image():
     rain = PhotoImage(file="rain.png")
     clouds = PhotoImage(file="clouds.png")
@@ -163,6 +166,8 @@ def m_d_y():
     name.config(text="THỜI GIAN")
 
 # Hiển thị thông tin thời tiết hiện tại trên giao diện
+
+
 def current_weather(event=None):
     getweather()
     if data == []:
@@ -177,7 +182,6 @@ def current_weather(event=None):
         pressure = data[0]['main']['pressure']
         humidity = data[0]['main']['humidity']
         wind = data[0]['wind']['speed']
-        # rainfall = data[0]['main']['rainfall']
         c.config(text=(condition, "|", "FEELS", "LIKE", temp, "°"))
         if dv_toc_do_gio[0] == 'km/h':
             w.config(text=f'{wind} {dv_toc_do_gio[0]}')
@@ -309,7 +313,6 @@ window.title("Weather App")
 window.geometry('900x500')
 window.geometry('+%d+%d' % (300, 150))
 window.resizable(FALSE, False)
-# window.iconbitmap('weather-icon.ico')
 weather_icon = PhotoImage(file='icon.ico')
 window.iconphoto(True, weather_icon)
 window.bind('<Return>', current_weather)
