@@ -10,8 +10,6 @@ import requests
 import pytz
 
 # Lấy dữ liệu thời tiết hiện tại
-# laaaaaaa
-
 
 def getweather():
     try:
@@ -39,7 +37,6 @@ def getweather():
             title='Error', message='Không thể lấy dữ liệu thời tiết hiện tại')
 
 # Hiển thị thông tin thời tiết hiện tại trên giao diện
-
 
 def change_image():
     rain = PhotoImage(file="rain.png")
@@ -254,6 +251,7 @@ def settings_window():
 
     setting_frame = Frame(st_window)
     setting_frame.place(x=10, y=60)
+
     # Thay đổi đơn vị tốc độ gió
     Label(setting_frame, text='Đơn vị tốc độ gió',
           font=(40)).grid(column=0, row=0)
