@@ -34,7 +34,6 @@ def getweather():
         json_data = requests.get(api).json()
         data.clear()
         data.append(json_data)
-        print(data)
     except:
         messagebox.showerror(
             title='Error', message='Không thể lấy dữ liệu thời tiết hiện tại')
@@ -328,8 +327,9 @@ window.title("Weather App")
 window.geometry('900x500')
 window.geometry('+%d+%d' % (300, 150))
 window.resizable(FALSE, False)
-# weather_icon = PhotoImage(file='weather.png')
-# window.iconphoto(True,weather_icon)
+# window.iconbitmap('weather-icon.ico')
+weather_icon = PhotoImage(file='icon.ico')
+window.iconphoto(True, weather_icon)
 window.bind('<Return>', current_weather)
 
 bg = Label(window, width=0, height=0)
