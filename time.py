@@ -9,7 +9,7 @@ from datetime import datetime
 import requests
 import pytz
 
-# Lấy dữ liệu thời tiết hiện tại
+# Lấy dữ liệu thời tiết hiện tại...
 
 def getweather():
     try:
