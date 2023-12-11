@@ -41,6 +41,7 @@ def getweather():
             title='Error', message='Không thể lấy dữ liệu thời tiết hiện tại')
 
 # Đổi hình và nền theo thời tiết
+# hello
 
 
 def change_background():
